@@ -1,0 +1,965 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Atalhos de Teclado - Visual Studio Code</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary-color: #007acc;
+            --secondary-color: #1e1e1e;
+            --text-color: #333;
+            --light-bg: #f5f5f5;
+            --border-color: #ddd;
+            --card-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+            --transition: all 0.3s ease;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: var(--text-color);
+            background: linear-gradient(135deg, #f5f5f5 0%, #e8e8e8 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 50px;
+            animation: slideDown 0.6s ease;
+        }
+
+        header h1 {
+            font-size: 2.5rem;
+            color: var(--primary-color);
+            margin-bottom: 10px;
+            font-weight: 700;
+        }
+
+        header p {
+            font-size: 1.1rem;
+            color: #666;
+            margin-bottom: 20px;
+        }
+
+        .logo-icon {
+            font-size: 3rem;
+            margin-bottom: 15px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .nav-tabs {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 30px;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .nav-button {
+            padding: 12px 24px;
+            border: 2px solid var(--primary-color);
+            background: white;
+            color: var(--primary-color);
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 1rem;
+            font-weight: 600;
+            transition: var(--transition);
+            outline: none;
+        }
+
+        .nav-button:hover {
+            background: var(--primary-color);
+            color: white;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0, 122, 204, 0.3);
+        }
+
+        .nav-button.active {
+            background: var(--primary-color);
+            color: white;
+        }
+
+        .section {
+            display: none;
+            animation: fadeIn 0.4s ease;
+        }
+
+        .section.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes slideDown {
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        section h2 {
+            color: var(--primary-color);
+            margin-bottom: 25px;
+            font-size: 1.8rem;
+            border-bottom: 3px solid var(--primary-color);
+            padding-bottom: 10px;
+        }
+
+        .shortcuts-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 20px;
+            margin-bottom: 40px;
+        }
+
+        .shortcut-card {
+            background: white;
+            border-radius: 10px;
+            padding: 20px;
+            box-shadow: var(--card-shadow);
+            transition: var(--transition);
+            border-left: 4px solid var(--primary-color);
+        }
+
+        .shortcut-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 6px 16px rgba(0, 0, 0, 0.15);
+        }
+
+        .shortcut-card h3 {
+            color: var(--text-color);
+            margin-bottom: 8px;
+            font-size: 1rem;
+        }
+
+        .shortcut-card p {
+            color: #666;
+            font-size: 0.9rem;
+            margin-bottom: 12px;
+        }
+
+        .shortcut-key {
+            display: inline-block;
+            background: var(--secondary-color);
+            color: white;
+            padding: 6px 12px;
+            border-radius: 5px;
+            font-family: 'Courier New', monospace;
+            font-size: 0.85rem;
+            font-weight: 600;
+            border: 1px solid #555;
+        }
+
+        .key-group {
+            display: flex;
+            gap: 5px;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+
+        .key-plus {
+            color: #999;
+            margin: 0 3px;
+            font-weight: bold;
+        }
+
+        .table-container {
+            overflow-x: auto;
+            margin-bottom: 30px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            background: white;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: var(--card-shadow);
+        }
+
+        th {
+            background: var(--primary-color);
+            color: white;
+            padding: 15px;
+            text-align: left;
+            font-weight: 600;
+            font-size: 1rem;
+        }
+
+        td {
+            padding: 12px 15px;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        tr:hover {
+            background: var(--light-bg);
+            transition: var(--transition);
+        }
+
+        tr:last-child td {
+            border-bottom: none;
+        }
+
+        .key-cell {
+            font-family: 'Courier New', monospace;
+            background: var(--secondary-color);
+            color: white;
+            padding: 8px 12px;
+            border-radius: 5px;
+            font-weight: 600;
+            display: inline-block;
+        }
+
+        footer {
+            text-align: center;
+            margin-top: 50px;
+            padding: 20px;
+            color: #666;
+            font-size: 0.9rem;
+            background: rgba(255, 255, 255, 0.5);
+            border-radius: 10px;
+            backdrop-filter: blur(10px);
+        }
+
+        .highlight {
+            background: #fff3cd;
+            padding: 15px;
+            border-left: 4px solid #ffc107;
+            border-radius: 5px;
+            margin-bottom: 20px;
+            color: #856404;
+        }
+
+        .two-column-table {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+
+        @media (max-width: 768px) {
+            header h1 {
+                font-size: 1.8rem;
+            }
+
+            .shortcuts-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .two-column-table {
+                grid-template-columns: 1fr;
+            }
+
+            .nav-tabs {
+                flex-direction: column;
+            }
+
+            .nav-button {
+                width: 100%;
+            }
+
+            table {
+                font-size: 0.9rem;
+            }
+
+            td, th {
+                padding: 10px;
+            }
+        }
+
+        .tip-box {
+            background: #e7f3ff;
+            border-left: 4px solid var(--primary-color);
+            padding: 15px;
+            border-radius: 5px;
+            margin-top: 20px;
+            color: #003a6a;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="logo-icon">⌨️</div>
+        <h1>Atalhos de Teclado</h1>
+        <p>Visual Studio Code - Guia Completo</p>
+    </header>
+
+    <div class="container">
+        <div class="nav-tabs">
+            <button class="nav-button active" onclick="showSection('edicao')">✏️ Edição</button>
+            <button class="nav-button" onclick="showSection('navegacao')">🗺️ Navegação</button>
+            <button class="nav-button" onclick="showSection('terminal')">💻 Terminal</button>
+            <button class="nav-button" onclick="showSection('arquivos')">📁 Arquivos</button>
+            <button class="nav-button" onclick="showSection('depuracao')">🐛 Depuração</button>
+        </div>
+
+        <!-- Seção Edição -->
+        <section id="edicao" class="section active">
+            <h2>✏️ Atalhos de Edição</h2>
+            <div class="shortcuts-grid">
+                <div class="shortcut-card">
+                    <h3>Desfazer</h3>
+                    <p>Desfaz a última ação</p>
+                    <div class="key-group">
+                        <span class="shortcut-key">Ctrl</span>
+                        <span class="key-plus">+</span>
+                        <span class="shortcut-key">Z</span>
+                    </div>
+                </div>
+
+                <div class="shortcut-card">
+                    <h3>Refazer</h3>
+                    <p>Refaz a última ação desfeita</p>
+                    <div class="key-group">
+                        <span class="shortcut-key">Ctrl</span>
+                        <span class="key-plus">+</span>
+                        <span class="shortcut-key">Shift</span>
+                        <span class="key-plus">+</span>
+                        <span class="shortcut-key">Z</span>
+                    </div>
+                </div>
+
+                <div class="shortcut-card">
+                    <h3>Copiar Linha</h3>
+                    <p>Copia a linha inteira</p>
+                    <div class="key-group">
+                        <span class="shortcut-key">Ctrl</span>
+                        <span class="key-plus">+</span>
+                        <span class="shortcut-key">C</span>
+                    </div>
+                </div>
+
+                <div class="shortcut-card">
+                    <h3>Cortar Linha</h3>
+                    <p>Corta a linha inteira</p>
+                    <div class="key-group">
+                        <span class="shortcut-key">Ctrl</span>
+                        <span class="key-plus">+</span>
+                        <span class="shortcut-key">X</span>
+                    </div>
+                </div>
+
+                <div class="shortcut-card">
+                    <h3>Colar</h3>
+                    <p>Cola o conteúdo copiado/cortado</p>
+                    <div class="key-group">
+                        <span class="shortcut-key">Ctrl</span>
+                        <span class="key-plus">+</span>
+                        <span class="shortcut-key">V</span>
+                    </div>
+                </div>
+
+                <div class="shortcut-card">
+                    <h3>Duplicar Linha</h3>
+                    <p>Cria uma cópia da linha</p>
+                    <div class="key-group">
+                        <span class="shortcut-key">Ctrl</span>
+                        <span class="key-plus">+</span>
+                        <span class="shortcut-key">Shift</span>
+                        <span class="key-plus">+</span>
+                        <span class="shortcut-key">D</span>
+                    </div>
+                </div>
+
+                <div class="shortcut-card">
+                    <h3>Deletar Linha</h3>
+                    <p>Remove a linha inteira</p>
+                    <div class="key-group">
+                        <span class="shortcut-key">Ctrl</span>
+                        <span class="key-plus">+</span>
+                        <span class="shortcut-key">Shift</span>
+                        <span class="key-plus">+</span>
+                        <span class="shortcut-key">K</span>
+                    </div>
+                </div>
+
+                <div class="shortcut-card">
+                    <h3>Selecionar Tudo</h3>
+                    <p>Seleciona todo o conteúdo do arquivo</p>
+                    <div class="key-group">
+                        <span class="shortcut-key">Ctrl</span>
+                        <span class="key-plus">+</span>
+                        <span class="shortcut-key">A</span>
+                    </div>
+                </div>
+
+                <div class="shortcut-card">
+                    <h3>Encontrar</h3>
+                    <p>Abre a caixa de busca</p>
+                    <div class="key-group">
+                        <span class="shortcut-key">Ctrl</span>
+                        <span class="key-plus">+</span>
+                        <span class="shortcut-key">F</span>
+                    </div>
+                </div>
+
+                <div class="shortcut-card">
+                    <h3>Substituir</h3>
+                    <p>Abre a caixa de busca e substituição</p>
+                    <div class="key-group">
+                        <span class="shortcut-key">Ctrl</span>
+                        <span class="key-plus">+</span>
+                        <span class="shortcut-key">H</span>
+                    </div>
+                </div>
+
+                <div class="shortcut-card">
+                    <h3>Próxima Ocorrência</h3>
+                    <p>Vai para a próxima correspondência</p>
+                    <div class="key-group">
+                        <span class="shortcut-key">F3</span>
+                    </div>
+                </div>
+
+                <div class="shortcut-card">
+                    <h3>Ocorrência Anterior</h3>
+                    <p>Vai para a ocorrência anterior</p>
+                    <div class="key-group">
+                        <span class="shortcut-key">Shift</span>
+                        <span class="key-plus">+</span>
+                        <span class="shortcut-key">F3</span>
+                    </div>
+                </div>
+
+                <div class="shortcut-card">
+                    <h3>Comentar Linha</h3>
+                    <p>Comenta/descomenta a linha</p>
+                    <div class="key-group">
+                        <span class="shortcut-key">Ctrl</span>
+                        <span class="key-plus">+</span>
+                        <span class="shortcut-key">/</span>
+                    </div>
+                </div>
+
+                <div class="shortcut-card">
+                    <h3>Comentar Bloco</h3>
+                    <p>Comenta/descomenta um bloco</p>
+                    <div class="key-group">
+                        <span class="shortcut-key">Ctrl</span>
+                        <span class="key-plus">+</span>
+                        <span class="shortcut-key">Shift</span>
+                        <span class="key-plus">+</span>
+                        <span class="shortcut-key">/</span>
+                    </div>
+                </div>
+
+                <div class="shortcut-card">
+                    <h3>Indentar</h3>
+                    <p>Aumenta a indentação</p>
+                    <div class="key-group">
+                        <span class="shortcut-key">Tab</span>
+                    </div>
+                </div>
+
+                <div class="shortcut-card">
+                    <h3>Diminuir Indentação</h3>
+                    <p>Diminui a indentação</p>
+                    <div class="key-group">
+                        <span class="shortcut-key">Shift</span>
+                        <span class="key-plus">+</span>
+                        <span class="shortcut-key">Tab</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Seção Navegação -->
+        <section id="navegacao" class="section">
+            <h2>🗺️ Atalhos de Navegação</h2>
+            <div class="shortcuts-grid">
+                <div class="shortcut-card">
+                    <h3>Ir para Linha</h3>
+                    <p>Pula para uma linha específica</p>
+                    <div class="key-group">
+                        <span class="shortcut-key">Ctrl</span>
+                        <span class="key-plus">+</span>
+                        <span class="shortcut-key">G</span>
+                    </div>
+                </div>
+
+                <div class="shortcut-card">
+                    <h3>Ir para Arquivo</h3>
+                    <p>Busca e abre um arquivo</p>
+                    <div class="key-group">
+                        <span class="shortcut-key">Ctrl</span>
+                        <span class="key-plus">+</span>
+                        <span class="shortcut-key">P</span>
+                    </div>
+                </div>
+
+                <div class="shortcut-card">
+                    <h3>Ir para Símbolo</h3>
+                    <p>Busca um símbolo no arquivo</p>
+                    <div class="key-group">
+                        <span class="shortcut-key">Ctrl</span>
+                        <span class="key-plus">+</span>
+                        <span class="shortcut-key">Shift</span>
+                        <span class="key-plus">+</span>
+                        <span class="shortcut-key">O</span>
+                    </div>
+                </div>
+
+                <div class="shortcut-card">
+                    <h3>Símbolo Global</h3>
+                    <p>Busca um símbolo em todo o projeto</p>
+                    <div class="key-group">
+                        <span class="shortcut-key">Ctrl</span>
+                        <span class="key-plus">+</span>
+                        <span class="shortcut-key">T</span>
+                    </div>
+                </div>
+
+                <div class="shortcut-card">
+                    <h3>Ir para Definição</h3>
+                    <p>Navega para a definição do símbolo</p>
+                    <div class="key-group">
+                        <span class="shortcut-key">Ctrl</span>
+                        <span class="key-plus">+</span>
+                        <span class="shortcut-key">Click</span>
+                    </div>
+                </div>
+
+                <div class="shortcut-card">
+                    <h3>Voltar</h3>
+                    <p>Volta para a posição anterior</p>
+                    <div class="key-group">
+                        <span class="shortcut-key">Alt</span>
+                        <span class="key-plus">+</span>
+                        <span class="shortcut-key">Seta Esquerda</span>
+                    </div>
+                </div>
+
+                <div class="shortcut-card">
+                    <h3>Avançar</h3>
+                    <p>Avança para a próxima posição</p>
+                    <div class="key-group">
+                        <span class="shortcut-key">Alt</span>
+                        <span class="key-plus">+</span>
+                        <span class="shortcut-key">Seta Direita</span>
+                    </div>
+                </div>
+
+                <div class="shortcut-card">
+                    <h3>Início do Arquivo</h3>
+                    <p>Vai para o início do arquivo</p>
+                    <div class="key-group">
+                        <span class="shortcut-key">Ctrl</span>
+                        <span class="key-plus">+</span>
+                        <span class="shortcut-key">Home</span>
+                    </div>
+                </div>
+
+                <div class="shortcut-card">
+                    <h3>Final do Arquivo</h3>
+                    <p>Vai para o final do arquivo</p>
+                    <div class="key-group">
+                        <span class="shortcut-key">Ctrl</span>
+                        <span class="key-plus">+</span>
+                        <span class="shortcut-key">End</span>
+                    </div>
+                </div>
+
+                <div class="shortcut-card">
+                    <h3>Ir para Colchete</h3>
+                    <p>Salta para o colchete correspondente</p>
+                    <div class="key-group">
+                        <span class="shortcut-key">Ctrl</span>
+                        <span class="key-plus">+</span>
+                        <span class="shortcut-key">Shift</span>
+                        <span class="key-plus">+</span>
+                        <span class="shortcut-key">\</span>
+                    </div>
+                </div>
+
+                <div class="shortcut-card">
+                    <h3>Ampliar</h3>
+                    <p>Aumenta o zoom do editor</p>
+                    <div class="key-group">
+                        <span class="shortcut-key">Ctrl</span>
+                        <span class="key-plus">+</span>
+                        <span class="shortcut-key">=</span>
+                    </div>
+                </div>
+
+                <div class="shortcut-card">
+                    <h3>Reduzir</h3>
+                    <p>Diminui o zoom do editor</p>
+                    <div class="key-group">
+                        <span class="shortcut-key">Ctrl</span>
+                        <span class="key-plus">+</span>
+                        <span class="shortcut-key">-</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Seção Terminal -->
+        <section id="terminal" class="section">
+            <h2>💻 Atalhos do Terminal</h2>
+            <div class="shortcuts-grid">
+                <div class="shortcut-card">
+                    <h3>Abrir Terminal</h3>
+                    <p>Abre o terminal integrado</p>
+                    <div class="key-group">
+                        <span class="shortcut-key">Ctrl</span>
+                        <span class="key-plus">+</span>
+                        <span class="shortcut-key">`</span>
+                    </div>
+                </div>
+
+                <div class="shortcut-card">
+                    <h3>Novo Terminal</h3>
+                    <p>Cria uma nova aba no terminal</p>
+                    <div class="key-group">
+                        <span class="shortcut-key">Ctrl</span>
+                        <span class="key-plus">+</span>
+                        <span class="shortcut-key">Shift</span>
+                        <span class="key-plus">+</span>
+                        <span class="shortcut-key">`</span>
+                    </div>
+                </div>
+
+                <div class="shortcut-card">
+                    <h3>Terminal Próxima</h3>
+                    <p>Muda para o próximo terminal</p>
+                    <div class="key-group">
+                        <span class="shortcut-key">Ctrl</span>
+                        <span class="key-plus">+</span>
+                        <span class="shortcut-key">Page Down</span>
+                    </div>
+                </div>
+
+                <div class="shortcut-card">
+                    <h3>Terminal Anterior</h3>
+                    <p>Muda para o terminal anterior</p>
+                    <div class="key-group">
+                        <span class="shortcut-key">Ctrl</span>
+                        <span class="key-plus">+</span>
+                        <span class="shortcut-key">Page Up</span>
+                    </div>
+                </div>
+
+                <div class="shortcut-card">
+                    <h3>Limpar Terminal</h3>
+                    <p>Limpa o conteúdo do terminal</p>
+                    <div class="key-group">
+                        <span class="shortcut-key">Ctrl</span>
+                        <span class="key-plus">+</span>
+                        <span class="shortcut-key">Shift</span>
+                        <span class="key-plus">+</span>
+                        <span class="shortcut-key">L</span>
+                    </div>
+                </div>
+
+                <div class="shortcut-card">
+                    <h3>Matar Terminal</h3>
+                    <p>Fecha a aba do terminal atual</p>
+                    <div class="key-group">
+                        <span class="shortcut-key">Ctrl</span>
+                        <span class="key-plus">+</span>
+                        <span class="shortcut-key">Shift</span>
+                        <span class="key-plus">+</span>
+                        <span class="shortcut-key">W</span>
+                    </div>
+                </div>
+
+                <div class="shortcut-card">
+                    <h3>Dividir Terminal</h3>
+                    <p>Divide o terminal em painéis</p>
+                    <div class="key-group">
+                        <span class="shortcut-key">Ctrl</span>
+                        <span class="key-plus">+</span>
+                        <span class="shortcut-key">Shift</span>
+                        <span class="key-plus">+</span>
+                        <span class="shortcut-key">5</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Seção Arquivos -->
+        <section id="arquivos" class="section">
+            <h2>📁 Atalhos de Gerenciamento de Arquivos</h2>
+            <div class="shortcuts-grid">
+                <div class="shortcut-card">
+                    <h3>Novo Arquivo</h3>
+                    <p>Cria um novo arquivo</p>
+                    <div class="key-group">
+                        <span class="shortcut-key">Ctrl</span>
+                        <span class="key-plus">+</span>
+                        <span class="shortcut-key">N</span>
+                    </div>
+                </div>
+
+                <div class="shortcut-card">
+                    <h3>Abrir Arquivo</h3>
+                    <p>Abre um arquivo do sistema de arquivos</p>
+                    <div class="key-group">
+                        <span class="shortcut-key">Ctrl</span>
+                        <span class="key-plus">+</span>
+                        <span class="shortcut-key">O</span>
+                    </div>
+                </div>
+
+                <div class="shortcut-card">
+                    <h3>Abrir Pasta</h3>
+                    <p>Abre uma pasta como espaço de trabalho</p>
+                    <div class="key-group">
+                        <span class="shortcut-key">Ctrl</span>
+                        <span class="key-plus">+</span>
+                        <span class="shortcut-key">K</span>
+                        <span class="key-group" style="display: inline;">
+                            <span class="key-plus">+</span>
+                            <span class="shortcut-key">Ctrl</span>
+                            <span class="key-plus">+</span>
+                            <span class="shortcut-key">O</span>
+                        </span>
+                    </div>
+                </div>
+
+                <div class="shortcut-card">
+                    <h3>Salvar</h3>
+                    <p>Salva o arquivo atual</p>
+                    <div class="key-group">
+                        <span class="shortcut-key">Ctrl</span>
+                        <span class="key-plus">+</span>
+                        <span class="shortcut-key">S</span>
+                    </div>
+                </div>
+
+                <div class="shortcut-card">
+                    <h3>Salvar Tudo</h3>
+                    <p>Salva todos os arquivos abertos</p>
+                    <div class="key-group">
+                        <span class="shortcut-key">Ctrl</span>
+                        <span class="key-plus">+</span>
+                        <span class="shortcut-key">Shift</span>
+                        <span class="key-plus">+</span>
+                        <span class="shortcut-key">S</span>
+                    </div>
+                </div>
+
+                <div class="shortcut-card">
+                    <h3>Fechar Arquivo</h3>
+                    <p>Fecha o arquivo atual</p>
+                    <div class="key-group">
+                        <span class="shortcut-key">Ctrl</span>
+                        <span class="key-plus">+</span>
+                        <span class="shortcut-key">W</span>
+                    </div>
+                </div>
+
+                <div class="shortcut-card">
+                    <h3>Fechar Todos</h3>
+                    <p>Fecha todos os arquivos abertos</p>
+                    <div class="key-group">
+                        <span class="shortcut-key">Ctrl</span>
+                        <span class="key-plus">+</span>
+                        <span class="shortcut-key">Shift</span>
+                        <span class="key-plus">+</span>
+                        <span class="shortcut-key">W</span>
+                    </div>
+                </div>
+
+                <div class="shortcut-card">
+                    <h3>Próximo Arquivo</h3>
+                    <p>Muda para o próximo arquivo aberto</p>
+                    <div class="key-group">
+                        <span class="shortcut-key">Ctrl</span>
+                        <span class="key-plus">+</span>
+                        <span class="shortcut-key">Tab</span>
+                    </div>
+                </div>
+
+                <div class="shortcut-card">
+                    <h3>Arquivo Anterior</h3>
+                    <p>Muda para o arquivo anterior</p>
+                    <div class="key-group">
+                        <span class="shortcut-key">Ctrl</span>
+                        <span class="key-plus">+</span>
+                        <span class="shortcut-key">Shift</span>
+                        <span class="key-plus">+</span>
+                        <span class="shortcut-key">Tab</span>
+                    </div>
+                </div>
+
+                <div class="shortcut-card">
+                    <h3>Renomear Arquivo</h3>
+                    <p>Renomeia o arquivo selecionado</p>
+                    <div class="key-group">
+                        <span class="shortcut-key">F2</span>
+                    </div>
+                </div>
+
+                <div class="shortcut-card">
+                    <h3>Deletar Arquivo</h3>
+                    <p>Deleta o arquivo selecionado</p>
+                    <div class="key-group">
+                        <span class="shortcut-key">Delete</span>
+                    </div>
+                </div>
+
+                <div class="shortcut-card">
+                    <h3>Explorador de Arquivos</h3>
+                    <p>Mostra/esconde o explorador</p>
+                    <div class="key-group">
+                        <span class="shortcut-key">Ctrl</span>
+                        <span class="key-plus">+</span>
+                        <span class="shortcut-key">B</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Seção Depuração -->
+        <section id="depuracao" class="section">
+            <h2>🐛 Atalhos de Depuração</h2>
+            <div class="shortcuts-grid">
+                <div class="shortcut-card">
+                    <h3>Iniciar Depuração</h3>
+                    <p>Inicia a sessão de depuração</p>
+                    <div class="key-group">
+                        <span class="shortcut-key">F5</span>
+                    </div>
+                </div>
+
+                <div class="shortcut-card">
+                    <h3>Parar Depuração</h3>
+                    <p>Para a sessão de depuração</p>
+                    <div class="key-group">
+                        <span class="shortcut-key">Shift</span>
+                        <span class="key-plus">+</span>
+                        <span class="shortcut-key">F5</span>
+                    </div>
+                </div>
+
+                <div class="shortcut-card">
+                    <h3>Continuar</h3>
+                    <p>Continua a execução pausada</p>
+                    <div class="key-group">
+                        <span class="shortcut-key">F5</span>
+                    </div>
+                </div>
+
+                <div class="shortcut-card">
+                    <h3>Próxima Instrução</h3>
+                    <p>Executa a próxima linha</p>
+                    <div class="key-group">
+                        <span class="shortcut-key">F10</span>
+                    </div>
+                </div>
+
+                <div class="shortcut-card">
+                    <h3>Entrar em Função</h3>
+                    <p>Entra na função chamada</p>
+                    <div class="key-group">
+                        <span class="shortcut-key">F11</span>
+                    </div>
+                </div>
+
+                <div class="shortcut-card">
+                    <h3>Sair de Função</h3>
+                    <p>Sai da função atual</p>
+                    <div class="key-group">
+                        <span class="shortcut-key">Shift</span>
+                        <span class="key-plus">+</span>
+                        <span class="shortcut-key">F11</span>
+                    </div>
+                </div>
+
+                <div class="shortcut-card">
+                    <h3>Adicionar Ponto de Parada</h3>
+                    <p>Cria/remove um breakpoint</p>
+                    <div class="key-group">
+                        <span class="shortcut-key">F9</span>
+                    </div>
+                </div>
+
+                <div class="shortcut-card">
+                    <h3>Abrir Console de Depuração</h3>
+                    <p>Abre o console de depuração</p>
+                    <div class="key-group">
+                        <span class="shortcut-key">Ctrl</span>
+                        <span class="key-plus">+</span>
+                        <span class="shortcut-key">Shift</span>
+                        <span class="key-plus">+</span>
+                        <span class="shortcut-key">Y</span>
+                    </div>
+                </div>
+
+                <div class="shortcut-card">
+                    <h3>Abrir Panel de Depuração</h3>
+                    <p>Mostra o painel de depuração</p>
+                    <div class="key-group">
+                        <span class="shortcut-key">Ctrl</span>
+                        <span class="key-plus">+</span>
+                        <span class="shortcut-key">Shift</span>
+                        <span class="key-plus">+</span>
+                        <span class="shortcut-key">D</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <footer>
+        <p>💡 <strong>Dica:</strong> Para personalizar seus atalhos, acesse <strong>Arquivo > Preferências > Atalhos de Teclado (Ctrl + K Ctrl + S)</strong></p>
+        <p style="margin-top: 15px;">📖 Criado como referência para usuários do Visual Studio Code</p>
+    </footer>
+
+    <script>
+        function showSection(sectionId) {
+            // Esconder todas as seções
+            const sections = document.querySelectorAll('.section');
+            sections.forEach(section => {
+                section.classList.remove('active');
+            });
+
+            // Remover classe 'active' de todos os botões
+            const buttons = document.querySelectorAll('.nav-button');
+            buttons.forEach(button => {
+                button.classList.remove('active');
+            });
+
+            // Mostrar seção selecionada
+            document.getElementById(sectionId).classList.add('active');
+
+            // Adicionar classe 'active' ao botão clicado
+            event.target.classList.add('active');
+
+            // Animar scroll suave
+            document.querySelector('section.active').scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+
+        // Inicializar com a primeira seção ativa
+        window.addEventListener('load', () => {
+            document.getElementById('edicao').classList.add('active');
+        });
+    </script>
+</body>
+</html>
